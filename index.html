@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Study Tracker</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>📒</text></svg>">
+<style>
+:root{--bg:#f6f4ee;--card:#fff;--ink:#1d2b4f;--mut:#6b7390;--line:#dcd8cc;--hi:#ffe45e;--ok:#2f9e6b;--ac:#3b5bdb}
+@media(prefers-color-scheme:dark){:root{--bg:#141a2b;--card:#1d2540;--ink:#eef0f8;--mut:#9aa3c4;--line:#323c60;--hi:#ffe45e;--ok:#4cc38a;--ac:#8fa8ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Trebuchet MS",system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:14px 14px 60px}
+h1{font-size:22px;margin:6px 0 10px}h3{margin:18px 0 6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sp{flex:1}
+button,select,input[type=text],textarea{font:inherit;color:var(--ink)}
+button{border:2px solid var(--ink);background:var(--card);border-radius:10px;padding:7px 12px;cursor:pointer}
+button.on{background:var(--ink);color:var(--bg)}button.hi{background:var(--hi);color:#1d2b4f;border-color:#1d2b4f}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.chip{padding:5px 11px;border-radius:99px;font-size:14px}.chip.d{border-color:var(--ok)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0 12px}.bar i{display:block;height:100%;background:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.card.done{border-left-color:var(--ok)}
+.h{display:flex;gap:10px;align-items:center;font-size:18px;font-weight:700}
+.h input{width:26px;height:26px;accent-color:var(--ok)}
+.ses{margin:8px 0 8px 36px;padding:0;list-style:none;font-size:15px}.ses li{margin:3px 0}
+.ses b{background:linear-gradient(transparent 55%,var(--hi) 55%);color:inherit;color:var(--ink)}.ses small{color:var(--mut)}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg)}
+audio{width:100%;margin-top:8px;height:38px}.mut{color:var(--mut);font-size:14px}
+.sum{white-space:pre-wrap;background:var(--bg);border-radius:8px;padding:8px;margin-top:6px}
+.yt{font-size:13px;color:var(--ac);text-decoration:none;border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-left:4px;white-space:nowrap}.st{font-size:13px;color:var(--mut);margin-top:6px}.rec{color:#c92a2a;border-color:#c92a2a}details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:10px 0}summary{cursor:pointer;font-weight:700}
+</style></head><body><main id="app"></main>
+<script>
+const T1=`1|Mon|Algebra=Directed Numbers: Rules of Signs (+ / -)|Lexis=Parts of Speech: Nouns, Verbs, Adjectives|Science=Atomic Structure: Protons & Neutrons
+1|Tue|Compre=Scanning for Main Points: Practice 1|Geo/Stat=Properties of Plane Shapes (Triangles)|Bus Stud=Banned & Restricted Chemicals
+1|Wed|Algebra=Addition & Subtraction of Directed Nos.|Compos=Intro to Letter Writing: Types & Audience|Soc Stud=Fundamentals of Social Studies
+1|Thu|Lit=Fiction vs Non-Fiction: Characteristics|Geo/Stat=Plane Shapes: Quadrilaterals & Circles|History=British Colonization of Nigeria
+1|Fri|Algebra=Multiplication & Division of Directed Nos.|Lexis=Parts of Speech: Adverbs, Prepositions|Civic=The Constitution: Meaning & Needs
+1|Sat|Algebra=20 Mixed Directed Number Drills|Compos=Write Letter Outline & Format Practice|Elective=Ag Sci: Revision / Packaging Basics
+2|Mon|Algebra=Indices: Laws of Multiplication & Division|Lexis=Concord: Subject-Verb Agreement Rules|Science=Chemical Formula: Radicals & Valency
+2|Tue|Speech=Schwa Sound /ə/: Identification in Words|Geo/Stat=Angles on Straight Lines & Vert. Opposite|Bus Stud=Consumer Rights: How to Seek Redress
+2|Wed|Algebra=Reduction of Terms & Negative Indices|Compos=Letter Writing: Key Parts of an Address/Body|Soc Stud=Human Emotion: Exploring Love
+2|Thu|Lit=Fiction & Non-Fiction Comparative Analysis|Geo/Stat=Angle Sum of Triangles & Polygons|History=Lagos Annexation & Benin Expedition
+2|Fri|Algebra=Solving Expressions with Combined Indices|Lexis=Concord: Singular & Plural Indefinite Pronouns|Civic=Colonial Nigeria Constitution (Clifford)
+2|Sat|Algebra=Timed Indices & Term Reduction Test|Speech=Transcription Drills for Schwa Sound|Elective=Home Econ: Textiles & Fibres
+3|Mon|Algebra=Number Base: Conversion to Base 10|Lexis=Concord Continued: Either/Or & Neither/Nor|Science=Simple Chemical Equations Balancing
+3|Tue|Speech=Word Stress: Monosyllabic & Disyllabic|Geo/Stat=Similar Shapes: Ratio of Sides|Bus Stud=Personal Finance: Budgeting & Savings
+3|Wed|Algebra=Number Base: Conversion from Base 10|Compos=Letter Types: Formal vs Informal Differences|Soc Stud=Goal Setting: Short & Long Term Goals
+3|Thu|Lit=Poetry: Stanza, Rhyme Scheme, Imagery|Geo/Stat=Similar Triangles: Calculating Lengths|History=Indirect Rule: Origin & Lord Lugard
+3|Fri|Algebra=Number Base: Addition & Subtraction|Lexis=Concord Drills: Subject with Modifiers|Civic=Features of Colonial Constitutions
+3|Sat|Algebra=Base Conversions & Arithmetic Review|Lit=Poetry Analysis: Selected Term Poems|Elective=Music: Uses of Music & Sight Reading
+4|Mon|Algebra=Number Base Cont'd: Multiplication in Bases|Lexis=Changing Positive to Negative Statements|Science=Nervous System: Brain & Spinal Cord
+4|Tue|Speech=Stress Patterns: Noun/Verb Shift|Geo/Stat=Length, Area & Volume of Similar Shapes|Bus Stud=Living Modesty: Effects on Individuals
+4|Wed|Algebra=Complex Base Equations & Past Questions|Compos=Informal Letter: Salutation & Opening Line|Soc Stud=Decision Making: Steps to Sound Decisions
+4|Thu|Lit=Prose: Setting, Plot, Themes & Characters|Geo/Stat=Scale Factor for Area & Volume Ratios|History=Reactions to Indirect Rule (Aba Riots)
+4|Fri|Algebra=Number Base Mastery Test (Self-Timed)|Lexis=Negative Transformations using Auxiliary Verbs|Civic=Colonial Constitution Cont'd (Richards)
+4|Sat|Algebra=Revision: Weeks 1–4 Cumulative Algebra|Compos=Draft a Full Informal Letter to a Friend|Elective=PHE: Puberty Changes & Hockey Basics
+5|Mon|Algebra=Expressions with Brackets: Expansion (Single)|Lexis=Modal Verbs: Can, Could, May, Might|Science=Nervous System: Reflex Action & Neurons
+5|Tue|Speech=Vowel Sounds: Distinguishing /ɒ/ and /ɔː/|Geo/Stat=Area of Parallelogram & Trapezium|Bus Stud=Trial Balance: Debit & Credit Rules
+5|Wed|Algebra=Binomial Expansion: (a + b)(c + d)|Compos=Informal Letter: Paragraph Development|Soc Stud=Human Trafficking: Causes & Solutions
+5|Thu|Lit=Reading Recommended Text: Chapters 1–3|Geo/Stat=Area & Perimeter of Circles & Semi-circles|History=Direct Rule: French vs British Comparison
+5|Fri|Algebra=Algebraic Substitution with Bracket Terms|Lexis=Modal Verbs: Must, Ought to, Shall, Should|Civic=Post-Colonial 1960 Independence Const.
+5|Sat|Algebra=Practice 25 Bracket Expansion Problems|Speech=Contrast Pairs: /ɒ/ vs /ɔː/ (pot vs port)|Elective=CC Arts: Contemporary Nigerian Artists
+6|Mon-Sat|Mid-Term=Review Algebra Wk 1–5 Mistakes|Mid-Term=English Grammar & Speech Revision|Assessment=Past Mid-Term Test Questions
+7|Mon-Sat|Break=Light Review: 5 Algebra Drills/day|Break=Read Recommended Literature Text|Rest=Organization & Term Notebook Tidy
+8|Mon|Algebra=Brackets Cont'd: Expressions with Powers|Lexis=Expressing Willingness & Unwillingness|Science=Endocrine System: Hormones & Glands
+8|Tue|Compre=Identifying Topic Sentences in Passages|Geo/Stat=Geometry 2: Area of Sector of a Circle|Bus Stud=Trading Account: Opening/Closing Stock
+8|Wed|Algebra=Factoring Out Common Monomial Terms|Compos=Informal Letter: Tone, Slang Restrictions|Soc Stud=Family as the Basic Unit of Society
+8|Thu|Lit=Recommended Prose: Character Motivations|Geo/Stat=Area of Annulus (Ring Between Circles)|History=British Colonial Economy in Nigeria
+8|Fri|Algebra=Simplifying Complex Algebraic Fractions|Lexis=Modal Exercises: Will, Would, Refuse, Reluctant|Civic=1963 Republican Constitution Features
+8|Sat|Algebra=Drills on Sector, Annulus & Algebra|Compre=Summary Writing: Dos and Don'ts Practice|Elective=IRS / Bible Studies: Core Weekly Topic
+9|Mon|Algebra=Direct Proportion: Concept & Direct Ratios|Lexis=Idiomatic Expressions: Meaning & Context|Science=Endocrine System 2: Gland Functions
+9|Tue|Speech=Intonation: Falling Tune vs Rising Tune|Geo/Stat=Trigonometric Ratios: Sine, Cosine, Tangent|Bus Stud=Profit & Loss Account: Revenue/Expenses
+9|Wed|Algebra=Inverse Proportion: Solving Unitary Problems|Compos=Informal Letter: Addressing Common Errors|Soc Stud=Harmful Traditional Practices in Society
+9|Thu|Lit=Drama: Identifying Costumes and Props|Geo/Stat=Trig Ratios: SOH CAH TOA in Right Triangles|History=Colonial Development & Inter-Group Rels
+9|Fri|Algebra=Proportion Word Problems & Tabular Tasks|Lexis=Incorporating Idioms Naturally into Writing|Civic=Crimes Affecting Security: Bunkering
+9|Sat|Algebra=Speed & Accuracy Drills on Proportion|Speech=Intonation Practice in Statement vs Question|Elective=Ag Sci: Farm Machinery I & II
+10|Mon|Algebra=Proportion: Graphical Representation|Lexis=Emotions: Expressive Verbs & Adjectives|Science=Sense Organs: Eye Structure & Defects
+10|Tue|Speech=Consonant Sounds: /s/, /z/, /ʒ/ and /tʃ/|Geo/Stat=Trig Ratio Applications: Heights/Distances|Bus Stud=Profit & Loss Account Calculation Drills
+10|Wed|Algebra=Joint & Multi-step Proportion Practice|Compos=Informal Letter: Final Exam Format Check|Soc Stud=Peace: Importance & Conflict Resolution
+10|Thu|Lit=Final Review of Recommended Prose Chapters|Geo/Stat=Trigonometry Word Problems Practice|History=Term Review: Colonization Timeline
+10|Fri|Algebra=Solving Term 1 Mock Test Questions|Lexis=Descriptive Essay with Emotional Adjectives|Civic=Drug Trafficking & Punishments
+10|Sat|Algebra=Algebra Formula Revision Sheet|Speech=Consonant Sound Minimal Pairs (/s/ vs /z/)|Elective=Home Econ: Full Garment Construction
+11|Mon-Sat|Revision=JSS 2 Core Foundations & Algebra Check|Revision=Past English Examination Papers (Objective)|All Subjects=Review Sense Organs, Constitution, Trade
+12|Mon-Sat|Exams=Final First Term School Examinations|Review=Class Mock Papers|Rest=Maintain Sleep Routine`;
+const DUR=['45m','40m','25m'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'x';
+let S=null;try{S=JSON.parse(localStorage.getItem('ss1'))}catch(e){}
+if(!S)S={pin:'',st:[{id:'adam',name:'Adam',plans:[{id:'t1',name:'First Term',data:T1}],p:{}}]};
+const save=()=>{try{localStorage.setItem('ss1',JSON.stringify(S))}catch(e){alert('Storage is full. Export a backup and delete old voice notes.')}};
+let cur=S.st[0].id,planId=null,wk=1,parent=false,onlyDone=false,rec=null;
+const stu=()=>S.st.find(s=>s.id===cur)||S.st[0];
+const plan=()=>{const s=stu();return s.plans.find(p=>p.id===planId)||s.plans[0]};
+function parse(t){const w={};t.split('\n').forEach(l=>{const a=l.split('|').map(x=>x.trim());if(a.length<3||!+a[0])return;
+ const days=/^all|-/i.test(a[1])?['Mon','Tue','Wed','Thu','Fri','Sat']:[a[1].slice(0,3)];
+ days.forEach(d=>(w[a[0]]=w[a[0]]||[]).push({d,s:a.slice(2).map(x=>{const i=x.indexOf('=');return i<0?['',x]:[x.slice(0,i),x.slice(i+1)]})}))});return w}
+/* cloud sync (Firebase Realtime Database over REST) */
+const FB='';
+let DB=(()=>{try{const u=new URLSearchParams(location.search).get('db');if(u)localStorage.setItem('ssdb',u);return(localStorage.getItem('ssdb')||FB).replace(/\/+$/,'')}catch(e){return FB}})();
+let cst='';
+const stEl=()=>{const e=$('#cst');if(e)e.textContent=DB?cst:(parent?'Cloud sync is off. Set it up in Parent tools.':'Saved on this device only.')};
+async function cf(p,m,body,q){if(!DB)return;try{const r=await fetch(DB+'/ss/'+p+'.json'+(q||''),{method:m||'GET',body:body===undefined?undefined:JSON.stringify(body)});if(!r.ok)throw 0;cst='☁️ Synced';return await r.json()}catch(e){cst='⚠️ Offline. Will retry.'}}
+const toC=s=>({name:s.name,plans:Object.fromEntries(s.plans.map(p=>[p.id,{name:p.name,data:p.data}]))});
+function mergeR(id,r){if(!r)return;let m=S.st.find(x=>x.id===id);if(!m){m={id,name:r.name||id,plans:[],p:{}};S.st.push(m)}
+ Object.entries(r.plans||{}).forEach(([i,p])=>{if(!m.plans.some(q=>q.id===i))m.plans.push({id:i,name:p.name,data:p.data})});
+ for(const k in r.p||{}){const a=m.p[k],b=r.p[k];if(b&&(!a||(b.ts||0)>(a.ts||0)))m.p[k]=Object.assign({},a,b)}}
+async function sync(pullOnly){if(!DB)return;const r=await cf('students');if(r===undefined){stEl();return}
+ for(const id in r||{})mergeR(id,r[id]);save();if(pullOnly){stEl();return}
+ for(const s of S.st){await cf('students/'+s.id,'PATCH',toC(s));if(!parent&&Object.keys(s.p).length)await cf('students/'+s.id+'/p','PATCH',s.p)}
+ const keys=(await akeys())||[];
+ for(const s of S.st){const have=(await cf('audio/'+s.id,'GET',undefined,'?shallow=true'))||{};
+  for(const k of keys)if(k.startsWith(s.id+'|')){const kk=k.slice(s.id.length+1);if(!have[kk]){const b=await aget(k);if(b)await cf('audio/'+s.id+'/'+encodeURIComponent(kk),'PUT',await b2u(b))}}}
+ stEl()}
+async function cloudAudio(sid,kk){const d=await cf('audio/'+sid+'/'+encodeURIComponent(kk));if(d){const b=await(await fetch(d)).blob();await aset(sid+'|'+kk,b);return b}}
+const pt={};const pushP=k=>{const id=stu().id;clearTimeout(pt[k]);pt[k]=setTimeout(async()=>{await cf('students/'+id+'/p/'+encodeURIComponent(k),'PUT',(S.st.find(x=>x.id===id).p[k])||{});stEl()},700)};
+const pushS=async()=>{await cf('students/'+stu().id,'PATCH',toC(stu()));stEl()};
+/* audio store (IndexedDB) */
+const idb=new Promise(r=>{const q=indexedDB.open('ss',1);q.onupgradeneeded=()=>q.result.createObjectStore('a');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)});
+const io=async(m,f)=>{const d=await idb;if(!d)return;return new Promise(r=>{const o=d.transaction('a',m==='r'?'readonly':'readwrite').objectStore('a');const q=f(o);q.onsuccess=()=>r(q.result);q.onerror=()=>r()})};
+const aget=k=>io('r',o=>o.get(k)),aset=(k,v)=>io('w',o=>o.put(v,k)),adel=k=>io('w',o=>o.delete(k)),akeys=()=>io('r',o=>o.getAllKeys());
+const b2u=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)});
+const pk=(w,d)=>`${plan().id}|${w}|${d}`, ak=k=>`${stu().id}|${k}`;
+const getP=k=>stu().p[k]||(stu().p[k]={});
+function stats(){const W=parse(plan().data);let t=0,d=0;const per={};for(const w in W){per[w]=[0,W[w].length];W[w].forEach(x=>{t++;if((stu().p[pk(w,x.d)]||{}).d){d++;per[w][0]++}})}return{W,t,d,per}}
+const NOYT=/^(break|rest|exams|review|mid-term|assessment|revision|all subjects)$/i;
+const yt=s=>NOYT.test(s[0])?'':` <a class="yt" target="_blank" rel="noopener" title="Find video lessons on YouTube" href="https://www.youtube.com/results?search_query=${encodeURIComponent(s[1].replace(/^[^:]+: /,'')+' '+s[0]+' JSS 3 lesson')}">▶ Watch</a>`;
+function dayCard(w,x,showWk){const k=pk(w,x.d),p=stu().p[k]||{};
+ const ses=x.s.map((s,i)=>`<li><b>${esc(s[0])}</b> ${esc(s[1])} <small>${DUR[i]||''}</small>${yt(s)}</li>`).join('');
+ const title=(showWk?`Week ${w} · `:'')+x.d;
+ if(parent)return `<div class="card ${p.d?'done':''}"><div class="h"><span>${p.d?'✅':'⬜'}</span>${title}</div><ul class="ses">${ses}</ul>
+  <div class="sum">${p.t?esc(p.t):'<span class="mut">No summary written.</span>'}</div><div class="au" data-k="${esc(k)}"></div></div>`;
+ return `<div class="card ${p.d?'done':''}"><label class="h"><input type="checkbox" data-act="tick" data-k="${esc(k)}" ${p.d?'checked':''}>${title}</label><ul class="ses">${ses}</ul>
+  <textarea rows="3" data-act="txt" data-k="${esc(k)}" placeholder="What did I study today? What did I learn?">${esc(p.t||'')}</textarea>
+  <div class="row" style="margin-top:8px"><button data-act="rec" data-k="${esc(k)}">🎙️ Record voice note</button><button data-act="del" data-k="${esc(k)}" class="au-del" hidden>Delete voice</button></div><div class="au" data-k="${esc(k)}"></div></div>`}
+function render(){const s=stu(),pl=plan();let h=`<h1>📒 Study Tracker</h1><div class="row">`;
+ S.st.forEach(x=>h+=`<button class="${x.id===s.id?'on':''}" data-act="stu" data-v="${x.id}">${esc(x.name)}</button>`);
+ h+=`<span class="sp"></span>${DB?'<button data-act="sync" title="Refresh">🔄</button>':''}<button class="${parent?'hi':''}" data-act="par">${parent?'Parent mode ✓':'Parent 🔒'}</button></div><div class="st" id="cst"></div>`;
+ if(!pl){h+=`<p>No study plan yet for ${esc(s.name)}.</p>`+(parent?'':'<p class="mut">Ask a parent to add one in Parent mode.</p>')}
+ else{const st=stats();
+  if(s.plans.length>1)h+=`<div class="row" style="margin-top:10px"><select data-act="plan">${s.plans.map(p=>`<option value="${p.id}" ${p.id===pl.id?'selected':''}>${esc(p.name)}</option>`).join('')}</select></div>`;
+  h+=`<div class="mut" style="margin-top:10px">${esc(s.name)} · ${esc(pl.name)}: ${st.d} of ${st.t} days done</div><div class="bar"><i style="width:${st.t?st.d/st.t*100:0}%"></i></div><div class="row">`;
+  if(parent)h+=`<button class="chip ${wk===0?'on':''}" data-act="wk" data-v="0">✅ Done list</button>`;
+  Object.keys(st.W).forEach(w=>{const p=st.per[w];h+=`<button class="chip ${p[0]===p[1]?'d':''} ${+w===wk?'on':''}" data-act="wk" data-v="${w}">${w}${p[0]===p[1]?' ✓':''}</button>`});
+  h+=`</div>`;
+  if(wk===0&&parent){let n=0;for(const w in st.W)st.W[w].forEach(x=>{if((s.p[pk(w,x.d)]||{}).d){n++;h+=dayCard(w,x,1)}});if(!n)h+=`<p class="mut">Nothing ticked off yet.</p>`}
+  else{const w=st.W[wk]?wk:Object.keys(st.W)[0];if(parent)h+=`<label class="mut" style="display:block;margin-top:8px"><input type="checkbox" data-act="od" ${onlyDone?'checked':''}> Show only completed days</label>`;
+   (st.W[w]||[]).forEach(x=>{if(!(parent&&onlyDone&&!(s.p[pk(w,x.d)]||{}).d))h+=dayCard(w,x,0)})}}
+ if(parent)h+=tools();
+ $('#app').innerHTML=h;stEl();
+ document.querySelectorAll('.au').forEach(async el=>{let b=await aget(ak(el.dataset.k));if(!b&&DB&&(s.p[el.dataset.k]||{}).v)b=await cloudAudio(s.id,el.dataset.k);if(b){el.innerHTML='<audio controls></audio>';el.firstChild.src=URL.createObjectURL(b);const d=el.parentNode.querySelector('.au-del');if(d)d.hidden=false}else if(parent)el.innerHTML=''})}
+function tools(){return `<h3>Parent tools</h3>
+<details><summary>Add a term plan for ${esc(stu().name)}</summary><p class="mut">One line per day: <code>week|day|Subject=Topic|Subject=Topic|Subject=Topic</code>. Use <code>Mon-Sat</code> as the day to repeat a line for the whole week. Tip: give Claude the new PDF and ask it to convert it to this format.</p>
+<input type="text" id="pn" placeholder="Plan name, e.g. Second Term" style="margin-bottom:8px"><textarea id="pd" rows="6" placeholder="1|Mon|Algebra=...|English=...|Science=..."></textarea>
+<div class="row" style="margin-top:8px"><input type="file" id="pf" accept=".txt,.csv"><button class="hi" data-act="addplan">Add plan</button></div></details>
+<details><summary>Add a student</summary><input type="text" id="sn" placeholder="Name, e.g. Kenny" style="margin:8px 0"><label><input type="checkbox" id="sc" checked> Start with a copy of ${esc(stu().name)}'s plans</label><div style="margin-top:8px"><button class="hi" data-act="addstu">Add student</button></div></details>
+<details ${DB?'':'open'}><summary>☁️ Cloud sync ${DB?'(on)':'(not set up)'}</summary><ol class="mut"><li>Go to console.firebase.google.com and create a project (Analytics off).</li><li>Build, then Realtime Database, then Create database. Choose <b>test mode</b>.</li><li>Open the Rules tab, replace everything with <code>{"rules":{"ss":{".read":true,".write":true}}}</code> and click Publish.</li><li>Copy the database address from the Data tab (starts with https://) and paste it below.</li></ol>
+<input type="text" id="dbu" placeholder="https://your-project-default-rtdb.firebaseio.com" value="${esc(DB)}"><div style="margin:8px 0"><button class="hi" data-act="savedb">Save &amp; sync</button></div>
+${DB?`<p class="mut">Send the children this link. It connects their device automatically:</p><input type="text" readonly onclick="this.select()" value="${esc(location.origin+location.pathname+'?db='+encodeURIComponent(DB))}">`:''}</details>
+<details><summary>Backup file</summary><p class="mut">Optional offline backup of progress and voice notes.</p><div class="row"><button data-act="exp">Export backup</button><label class="mut">Import: <input type="file" id="imp" accept=".json"></label></div></details>
+<details><summary>Parent PIN</summary><button data-act="pin" style="margin-top:8px">Change PIN</button></details>`}
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;const a=b.dataset.act,v=b.dataset.v,k=b.dataset.k;
+ if(a==='stu'){cur=v;planId=null;wk=1;render()}
+ else if(a==='wk'){wk=+v;render()}
+ else if(a==='par'){if(parent){parent=false;render();return}
+  if(!S.pin){const p=prompt('Set a parent PIN (you will use it to open Parent mode):');if(!p)return;S.pin=p;save()}
+  else if(prompt('Parent PIN:')!==S.pin){alert('Wrong PIN');return}parent=true;render()}
+ else if(a==='pin'){const p=prompt('New PIN:');if(p){S.pin=p;save();alert('PIN changed')}}
+ else if(a==='rec'){if(rec){rec.stop();return}
+  try{const m=await navigator.mediaDevices.getUserMedia({audio:true});const r=new MediaRecorder(m,{audioBitsPerSecond:32000}),c=[];rec=r;b.textContent='⏹ Stop recording';b.classList.add('rec');
+   r.ondataavailable=ev=>c.push(ev.data);r.onstop=async()=>{m.getTracks().forEach(t=>t.stop());rec=null;const bl=new Blob(c,{type:r.mimeType||'audio/webm'});await aset(ak(k),bl);const p=getP(k);p.v=p.ts=Date.now();save();render();if(DB){await cf('audio/'+stu().id+'/'+encodeURIComponent(k),'PUT',await b2u(bl));pushP(k)}};r.start();setTimeout(()=>{if(rec===r)r.stop()},180000)}
+  catch(err){rec=null;alert('Could not use the microphone. Allow microphone access in the browser and try again.')}}
+ else if(a==='del'){if(confirm('Delete this voice note?')){await adel(ak(k));const p=getP(k);p.v=0;p.ts=Date.now();save();pushP(k);if(DB)cf('audio/'+stu().id+'/'+encodeURIComponent(k),'DELETE');render()}}
+ else if(a==='addplan'){const n=$('#pn').value.trim(),d=$('#pd').value;if(!n||!Object.keys(parse(d)).length){alert('Enter a plan name and at least one valid line.');return}
+  const pl={id:slug(n),name:n,data:d};const s=stu();s.plans=s.plans.filter(p=>p.id!==pl.id).concat(pl);planId=pl.id;wk=+Object.keys(parse(d))[0];save();pushS();render()}
+ else if(a==='addstu'){const n=$('#sn').value.trim();if(!n)return;const id=slug(n);if(S.st.some(x=>x.id===id)){alert('That name already exists.');return}
+  S.st.push({id,name:n,plans:$('#sc').checked?JSON.parse(JSON.stringify(stu().plans)):[],p:{}});cur=id;planId=null;wk=1;save();pushS();render()}
+ else if(a==='savedb'){const u=$('#dbu').value.trim().replace(/\/+$/,'');if(!/^https:\/\//.test(u)){alert('Paste the full address, starting with https://');return}DB=u;try{localStorage.setItem('ssdb',u)}catch(e){}await sync();render()}
+ else if(a==='sync'){await sync();render()}
+ else if(a==='exp'){const audio={};for(const k of(await akeys())||[])audio[k]=await b2u(await aget(k));
+  const f=new Blob([JSON.stringify({v:1,st:S.st,audio})],{type:'application/json'}),u=document.createElement('a');u.href=URL.createObjectURL(f);u.download='study-progress-'+new Date().toISOString().slice(0,10)+'.json';u.click()}});
+document.addEventListener('change',async e=>{const t=e.target,a=t.dataset.act;
+ if(a==='tick'){const p=getP(t.dataset.k);p.d=t.checked?1:0;p.ts=Date.now();save();pushP(t.dataset.k);render()}
+ else if(a==='plan'){planId=t.value;wk=+Object.keys(parse(plan().data))[0];render()}
+ else if(a==='od'){onlyDone=t.checked;render()}
+ else if(t.id==='pf'&&t.files[0]){$('#pd').value=(await t.files[0].text()).replace(/,/g,'|').replace(/\r/g,'');if(!$('#pn').value)$('#pn').value=t.files[0].name.replace(/\.\w+$/,'')}
+ else if(t.id==='imp'&&t.files[0]){try{const j=JSON.parse(await t.files[0].text());
+  j.st.forEach(x=>{let m=S.st.find(y=>y.id===x.id);if(!m){S.st.push(x);return}
+   x.plans.forEach(p=>{if(!m.plans.some(q=>q.id===p.id))m.plans.push(p)});
+   for(const k in x.p){const a=m.p[k]||{},b=x.p[k];if(!a.ts||(b.ts||0)>=a.ts)m.p[k]=Object.assign({},a,b)}});
+  for(const k in j.audio)await aset(k,await(await fetch(j.audio[k])).blob());save();render();alert('Progress imported.')}catch(err){alert('That file could not be read.')}t.value=''}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.act==='txt'){const p=getP(t.dataset.k);p.t=t.value;p.ts=Date.now();save();pushP(t.dataset.k)}});
+render();
+sync().then(()=>{if(!rec)render()});
+setInterval(async()=>{if(DB&&parent&&!rec&&!/^(TEXTAREA|INPUT)$/.test(document.activeElement.tagName)){await sync(true);render()}},30000);
+</script></body></html>
